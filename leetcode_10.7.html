@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
+<html>
+<head>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<title>Exported from Notepad++</title>
+<style type="text/css">
+span {
+	font-family: 'Courier New';
+	font-size: 10pt;
+	color: #000000;
+}
+.sc0 {
+}
+</style>
+</head>
+<body>
+<div style="float: left; white-space: pre; line-height: 1; background: #FFFFFF; "><span class="sc0">[LeetCode] Jump Game 跳跃游戏
+
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+Determine if you are able to reach the last index.
+
+Example 1:
+
+Input: [2,3,1,1,4]
+Output: true
+Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+Example 2:
+
+Input: [3,2,1,0,4]
+Output: false
+Explanation: You will always arrive at index 3 no matter what. Its maximum 
+jump length is 0, which makes it impossible to reach the last index.
+
+C++解法（动态规划）
+/*
+dp[]这里象征着“我自己最多还能跳多少步”
+*/
+class Solution {
+public:
+    bool canJump(vector&lt;int&gt;&amp; nums) {
+        vector&lt;int&gt; dp(nums.size(),0);
+            for(int i=1;i&lt;=nums.size();i++){
+                dp[i] = max(dp[i-1],nums[i-1])-1;
+                if(dp[i] &lt; 0) 
+                    return false;
+                }
+        if(dp.back() &gt;= 0) 
+            return true;
+    }
+};
+
+C++解法（贪心）
+/*
+reach这里象征着最远能走到哪个坐标
+*/
+class Solution {
+public:
+    bool canJump(vector&lt;int&gt;&amp; nums) {
+        int reach=0,size=nums.size();
+        for(int i=0;i&lt;size;i++){
+         if(i&gt;reach||reach&gt;=size-1) 
+             break;
+         reach = max(i+nums[i],reach);
+        }
+        return reach&gt;=size-1;
+    }
+};
+
+用python重新写了一次贪心
+class Solution:
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        reach = 0
+        result = False;
+        for i in range(len(nums)-1):
+            if reach &lt; i:
+                return false
+            reach = max(reach,nums[i]+i)
+        
+        if reach &gt;= len(nums)-1:
+            return True
+
+</span></div></body>
+</html>
